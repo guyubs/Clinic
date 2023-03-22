@@ -1,0 +1,44 @@
+﻿@model List<ClinicWeb.ViewModels.DoctorViewModel>
+
+@if (Model != null && Model.Any()) // 检查 Model 是否为空
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Street 1</th>
+                <th>Street 2</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zip</th>
+                <th>Tel</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var doctors in Model) // 检查 Model 是否包含元素
+            {
+                <tr>
+                    <td>@doctors.LastName</td>
+                    <td>@doctors.FirstName</td>
+                    <td>@doctors.Street1</td>
+                    <td>@doctors.Street2</td>
+                    <td>@doctors.City</td>
+                    <td>@doctors.State</td>
+                    <td>@doctors.Zip</td>
+                    <td>@doctors.Tel</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No results found.</p>
+}
+
+<div>
+    <ul>
+        <li><a href="@Url.Action("Index", "selectDoctor")">Back to Specialist</a></li>
+    </ul>
+</div>

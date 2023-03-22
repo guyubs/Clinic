@@ -1,0 +1,20 @@
+﻿@model List<ClinicWeb.Models.Specialist>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Specialist</h1>
+
+    @using (Html.BeginForm("DrInfo", "selectDoctor", FormMethod.Get))
+    {
+        @Html.DropDownList("specialityName", new SelectList(ViewBag.Specialities, "SpecialityName", "SpecialityName"), "-- Select Speciality --", new { @class = "form-control" })
+        <button type="submit" class="btn btn-primary mt-2">Find Doctors</button>
+    }
+</div>
+<div>
+    <ul>
+        <li><a href="@Url.Action("Index", "Panel")">Back to Main Panel</a></li>
+    </ul>
+</div>
