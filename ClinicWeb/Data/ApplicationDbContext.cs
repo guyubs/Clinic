@@ -10,7 +10,7 @@ namespace ClinicWeb.Data
         {
         }
 
-        // 启用四个表
+        // 启用5个表
         public DbSet<DrAddress> DrAddresses { get; set; }
 
         public DbSet<DrName> DrNames { get; set; }
@@ -18,6 +18,8 @@ namespace ClinicWeb.Data
         public DbSet<Specialist> Specialists { get; set; }
 
         public DbSet<Title> Titles { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,7 +40,13 @@ namespace ClinicWeb.Data
                 .WithMany(p => p.DrNames)
                 .HasForeignKey(d => d.TitleId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // 定义UserName Email唯一
+            modelBuilder.Entity<User>().HasIndex(u => u.UserName).IsUnique();
+            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
         }
+
+        
     }
 }
 

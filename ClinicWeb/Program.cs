@@ -13,6 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // 完成上一步后要执行数据迁移到数据库 add-migration AddTablesToDatabase 在Package manager Console运行
 // AddTablesToDatabase 是迁移的名字
 // 当数据迁移建立好后， run: update-database, 开始迁移
+// 若在数据迁移之后有增加新的table, 则需run Add-Migration NewTableName, 然后 update-database
 
 //用于显示razor pages
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -33,6 +34,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",

@@ -1,99 +1,95 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClinicWeb.Data;
-using ClinicWeb.Models;
 
 namespace ClinicWeb.Controllers
 {
-    public class TitlesController : Controller
+    public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public TitlesController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Titles
+        // GET: Users
         public async Task<IActionResult> Index()
         {
-              return _context.Titles != null ? 
-                          View(await _context.Titles.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Titles'  is null.");
+              return _context.Users != null ? 
+                          View(await _context.Users.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.User'  is null.");
         }
 
-        // GET: Titles/Details/5
+        // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Titles == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
 
-            var title = await _context.Titles
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (title == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(title);
+            return View(user);
         }
 
-        // GET: Titles/Create
+        // GET: Users/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Titles/Create
+        // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TitleName,Deleted,CreatedBy,ModifiedBy,CreateDateTime,ModifiedDateTime")] Title title)
+        public async Task<IActionResult> Create([Bind("Id,UserName,Password,Email,Phone,Note")] User user)
         {
             if (ModelState.IsValid)
             {
-                // 设置 ModifiedDateTime 属性为当前时间
-                title.CreateDateTime = DateTime.Now;
-
-                TempData["success"] = "Title created successfully!";
-                _context.Add(title);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(title);
+            return View(user);
         }
 
-        // GET: Titles/Edit/5
+        // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Titles == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
 
-            var title = await _context.Titles.FindAsync(id);
-            if (title == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(title);
+            return View(user);
         }
 
-        // POST: Titles/Edit/5
+        // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TitleName,Deleted,CreatedBy,ModifiedBy,CreateDateTime,ModifiedDateTime")] Title title)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserName,Password,Email,Phone,Note")] User user)
         {
-            if (id != title.Id)
+            if (id != user.Id)
             {
                 return NotFound();
             }
@@ -102,16 +98,12 @@ namespace ClinicWeb.Controllers
             {
                 try
                 {
-                    // 设置 ModifiedDateTime 属性为当前时间
-                    title.ModifiedDateTime = DateTime.Now;
-
-                    TempData["success"] = "Title edited successfully!";
-                    _context.Update(title);
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TitleExists(title.Id))
+                    if (!UserExists(user.Id))
                     {
                         return NotFound();
                     }
@@ -122,49 +114,49 @@ namespace ClinicWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(title);
+            return View(user);
         }
 
-        // GET: Titles/Delete/5
+        // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Titles == null)
+            if (id == null || _context.Users == null)
             {
                 return NotFound();
             }
 
-            var title = await _context.Titles
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (title == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(title);
+            return View(user);
         }
 
-        // POST: Titles/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Titles == null)
+            if (_context.Users == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Titles'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.User'  is null.");
             }
-            var title = await _context.Titles.FindAsync(id);
-            if (title != null)
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
             {
-                _context.Titles.Remove(title);
+                _context.Users.Remove(user);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TitleExists(int id)
+        private bool UserExists(int id)
         {
-          return (_context.Titles?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
