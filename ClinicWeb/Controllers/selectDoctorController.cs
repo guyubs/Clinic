@@ -18,6 +18,12 @@ namespace ClinicWeb.Controllers
         // 注意！此处一定要把specialities返回给View， 这样就能将 specialities 列表传递给视图，并在视图中使用 @model List<Doctors.Models.Specialist> 来接收这个列表。
         public IActionResult Index()
         {
+            // 登录验证，若cookies中没有用户，则显示登录页面
+            if (!HttpContext.Request.Cookies.TryGetValue("UserId", out string userId))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             var specialities = _context.Specialists
                 .Where(s => s.Deleted == null || s.Deleted == false)
                 .OrderBy(s => s.SpecialityName)

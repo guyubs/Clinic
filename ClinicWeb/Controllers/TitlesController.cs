@@ -21,7 +21,13 @@ namespace ClinicWeb.Controllers
         // GET: Titles
         public async Task<IActionResult> Index()
         {
-              return _context.Titles != null ? 
+            // 登录验证，若cookies中没有用户，则显示登录页面
+            if (!HttpContext.Request.Cookies.TryGetValue("UserId", out string userId))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            return _context.Titles != null ? 
                           View(await _context.Titles.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Titles'  is null.");
         }

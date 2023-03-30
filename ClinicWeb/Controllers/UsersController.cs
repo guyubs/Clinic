@@ -21,7 +21,13 @@ namespace ClinicWeb.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-              return _context.Users != null ? 
+            // 登录验证，若cookies中没有用户，则显示登录页面
+            if (!HttpContext.Request.Cookies.TryGetValue("UserId", out string userId))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            return _context.Users != null ? 
                           View(await _context.Users.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.User'  is null.");
         }

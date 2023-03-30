@@ -36,7 +36,7 @@ namespace ClinicWeb.Controllers
                     // 登录成功，设置 Cookie
                     var options = new CookieOptions
                     {
-                        Expires = DateTime.Now.AddDays(7),
+                        Expires = DateTime.Now.AddDays(1),
                         HttpOnly = true,
                         Secure = true,
                         SameSite = SameSiteMode.None

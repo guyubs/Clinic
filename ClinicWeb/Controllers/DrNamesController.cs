@@ -22,6 +22,12 @@ namespace ClinicWeb.Controllers
         // GET: DrNames
         public async Task<IActionResult> Index()
         {
+            // 登录验证，若cookies中没有用户，则显示登录页面
+            if (!HttpContext.Request.Cookies.TryGetValue("UserId", out string userId))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
             var applicationDbContext = _context.DrNames.Include(d => d.DrAddr).Include(d => d.Speciality).Include(d => d.Title);
             return View(await applicationDbContext.ToListAsync());
         }

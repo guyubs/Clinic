@@ -23,7 +23,14 @@ namespace ClinicWeb.Controllers
         // GET: DrAddresses
         public async Task<IActionResult> Index()
         {
-              return _context.DrAddresses != null ? 
+
+            // 登录验证，若cookies中没有用户，则显示登录页面
+            if (!HttpContext.Request.Cookies.TryGetValue("UserId", out string userId))
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            return _context.DrAddresses != null ? 
                           View(await _context.DrAddresses.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.DrAddresses'  is null.");
         }
