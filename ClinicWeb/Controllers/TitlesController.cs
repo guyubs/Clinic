@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClinicWeb.Data;
 using ClinicWeb.Models;
+using System.Net;
 
 namespace ClinicWeb.Controllers
 {
@@ -68,6 +69,9 @@ namespace ClinicWeb.Controllers
                 // 设置 ModifiedDateTime 属性为当前时间
                 title.CreateDateTime = DateTime.Now;
 
+                // 设置 CreatedBy
+                title.CreatedBy = HttpContext.Request.Cookies["Username"];
+
                 TempData["success"] = "Title created successfully!";
                 _context.Add(title);
                 await _context.SaveChangesAsync();
@@ -110,6 +114,9 @@ namespace ClinicWeb.Controllers
                 {
                     // 设置 ModifiedDateTime 属性为当前时间
                     title.ModifiedDateTime = DateTime.Now;
+
+                    // 设置 CreatedBy
+                    title.ModifiedBy = HttpContext.Request.Cookies["Username"];
 
                     TempData["success"] = "Title edited successfully!";
                     _context.Update(title);

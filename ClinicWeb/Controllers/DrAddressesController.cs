@@ -71,6 +71,9 @@ namespace ClinicWeb.Controllers
                 // 设置 CreateDateTime 属性为当前时间
                 drAddress.CreateDateTime = DateTime.Now;
 
+                // 设置 CreatedBy
+                drAddress.CreatedBy = HttpContext.Request.Cookies["Username"];
+
                 TempData["success"] = "Address created successfully!";
                 _context.Add(drAddress);
                 await _context.SaveChangesAsync();
@@ -113,6 +116,9 @@ namespace ClinicWeb.Controllers
                 {
                     // 设置 ModifiedDateTime 属性为当前时间
                     drAddress.ModifiedDateTime = DateTime.Now;
+
+                    // 设置 ModifiedBy
+                    drAddress.ModifiedBy = HttpContext.Request.Cookies["Username"];
 
                     TempData["success"] = "Address edited successfully!";
                     _context.Update(drAddress);

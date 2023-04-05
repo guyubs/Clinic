@@ -41,7 +41,8 @@ namespace ClinicWeb.Controllers
                         Secure = true,
                         SameSite = SameSiteMode.None
                     };
-                    Response.Cookies.Append("UserId", user.Id.ToString(), options);
+                    Response.Cookies.Append("UserId", user.Id.ToString(), options); // 记录Id
+                    Response.Cookies.Append("UserName", user.UserName.ToString(), options); // 记录用户名，用于在填表时获取用户名
 
                     return RedirectToAction("Index", "Panel");
                 }

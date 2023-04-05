@@ -68,8 +68,11 @@ namespace ClinicWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                // 设置 ModifiedDateTime 属性为当前时间
+                // 设置 CreateDateTime 属性为当前时间
                 specialist.CreateDateTime = DateTime.Now;
+
+                // 设置 CreatedBy
+                specialist.CreatedBy = HttpContext.Request.Cookies["Username"];
 
                 TempData["success"] = "Specialist created successfully!";
                 _context.Add(specialist);
@@ -113,6 +116,9 @@ namespace ClinicWeb.Controllers
                 {
                     // 设置 ModifiedDateTime 属性为当前时间
                     specialist.ModifiedDateTime = DateTime.Now;
+
+                    // 设置 ModifiedBy
+                    specialist.ModifiedBy = HttpContext.Request.Cookies["Username"];
 
                     TempData["success"] = "Specialist edited successfully!";
                     _context.Update(specialist);

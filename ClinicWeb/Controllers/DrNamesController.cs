@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClinicWeb.Data;
 using ClinicWeb.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Net;
 
 namespace ClinicWeb.Controllers
 {
@@ -74,6 +76,9 @@ namespace ClinicWeb.Controllers
                 // 设置 CreateDateTime 属性为当前时间
                 drName.CreateDateTime = DateTime.Now;
 
+                // 设置 CreatedBy
+                drName.CreatedBy = HttpContext.Request.Cookies["Username"];
+
                 // get selected values from dropdowns （检查是否能被解析，比如外键为空。此处双保险，因为在前端已经确定外键不为空）
                 int.TryParse(Request.Form["SpecialityId"], out int selectedSpecialityId);
                 int.TryParse(Request.Form["DrAddrId"], out int selectedAddrId);
@@ -135,6 +140,10 @@ namespace ClinicWeb.Controllers
                 {
                     // 设置 ModifiedDateTime 属性为当前时间
                     drName.ModifiedDateTime = DateTime.Now;
+
+                    // 设置 ModifiedBy
+                    drName.ModifiedBy = HttpContext.Request.Cookies["Username"];
+
 
                     // get selected values from dropdowns
                     var selectedSpecialityId = Request.Form["SpecialityId"];
