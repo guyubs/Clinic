@@ -13,6 +13,7 @@
                 <th>State</th>
                 <th>Zip</th>
                 <th>Tel</th>
+                <th>Print</th> <!-- 添加一个新的列 -->
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,17 @@
                     <td>@doctors.State</td>
                     <td>@doctors.Zip</td>
                     <td>@doctors.Tel</td>
+                    <td>
+                        <a class="btn btn-primary" href="@Url.Action("Print", "selectDoctor", new {
+                            lastName = doctors.LastName,
+                            firstName = doctors.FirstName,
+                            street1 = doctors.Street1,
+                            street2 = doctors.Street2,
+                            city = doctors.City,
+                            state = doctors.State,
+                            zip = doctors.Zip,
+                            tel = doctors.Tel })">Print</a>
+                    </td>
                 </tr>
             }
         </tbody>

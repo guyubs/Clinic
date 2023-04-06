@@ -1,7 +1,11 @@
 ﻿using ClinicWeb.Data;
 using ClinicWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 using System.Diagnostics;
+
+
 
 namespace ClinicWeb.Controllers
 {
@@ -64,6 +68,35 @@ namespace ClinicWeb.Controllers
             return View("~/Views/Panel/selectDoctor/DrInfo.cshtml", doctors);
         }
 
+
+        public ActionResult Print(string lastName, string firstName, string street1, string street2, string city, string state, string zip, string tel)
+        {
+            // 创建PDF文档
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = "Doctor Information";
+
+            // 添加页面
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont font = new XFont("Verdana", 16, XFontStyle.Bold);
+
+
+            // 添加文本
+            gfx.DrawString("Doctor Information", font, XBrushes.Black, new XRect(0, 0, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Last Name: " + lastName, font, XBrushes.Black, new XRect(0, 50, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("First Name: " + firstName, font, XBrushes.Black, new XRect(0, 70, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Street 1: " + street1, font, XBrushes.Black, new XRect(0, 90, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Street 2: " + street2, font, XBrushes.Black, new XRect(0, 110, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("City: " + city, font, XBrushes.Black, new XRect(0, 130, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("State: " + state, font, XBrushes.Black, new XRect(0, 150, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Zip: " + zip, font, XBrushes.Black, new XRect(0, 170, page.Width.Point, 50), XStringFormats.Center);
+            gfx.DrawString("Tel: " + tel, font, XBrushes.Black, new XRect(0, 190, page.Width.Point, 50), XStringFormats.Center);
+
+            // 返回PDF文件
+            MemoryStream stream = new MemoryStream();
+            document.Save(stream, false);
+            return new FileStreamResult(stream, "application/pdf");
+        }
 
 
     }
